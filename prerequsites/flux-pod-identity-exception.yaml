@@ -5,4 +5,4 @@ metadata:
   namespace: flux-system
 spec:
   podLabels:
-    app.kubernetes.io/name: microsoft.flux
+    app.kubernetes.io/name: flux-extension
