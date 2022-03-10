@@ -1,0 +1,18 @@
+# This is manually deployed atm. In a private repo, it may be deployed with Flux
+# apiVersion: "aadpodidentity.k8s.io/v1"
+# kind: AzureIdentity
+# metadata:
+#   name: keda-operator
+# spec:
+#   type: 0
+#   resourceID: 
+#   clientID: 
+# ---
+
+# apiVersion: "aadpodidentity.k8s.io/v1"
+# kind: AzureIdentityBinding
+# metadata:
+#   name: keda-operator
+# spec:
+#   azureIdentity: keda-operator
+#   selector: keda-operator
