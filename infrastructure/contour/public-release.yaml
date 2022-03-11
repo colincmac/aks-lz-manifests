@@ -21,6 +21,7 @@ spec:
   # https://github.com/bitnami/charts/tree/master/bitnami/contour
   values:
     contour:
+      manageCRDs: false
       ingressClass:
         name: 'contour-public'
         default: true
