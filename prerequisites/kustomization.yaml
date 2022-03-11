@@ -1,6 +1,5 @@
 # It seems that an exception is installed with app.kubernetes.io/name:  microsoft.flux
 # However, the pod templates have changed to app.kubernetes.io/name:  flux-extension
-# in a multitenant namespaced system, this needs it's own fluxConfig
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
