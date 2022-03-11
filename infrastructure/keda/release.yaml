@@ -21,4 +21,5 @@ spec:
   # https://github.com/kedacore/charts/blob/main/keda/values.yaml
   values:
     podIdentity:
-      activeDirectory: keda-operator
+      activeDirectory:
+        identity: keda-operator
