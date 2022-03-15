@@ -1,5 +1,6 @@
 # This is manually deployed atm. In a private repo, it may be deployed with Flux
 # This also may not be necessary in the future with delegated Identities
+# https://github.com/kedacore/keda/issues/2656
 
 # apiVersion: "aadpodidentity.k8s.io/v1"
 # kind: AzureIdentity

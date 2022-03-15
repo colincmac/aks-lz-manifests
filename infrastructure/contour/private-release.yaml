@@ -27,3 +27,7 @@ spec:
       ingressClass:
         name: 'contour-private'
         default: false
+    envoy:
+      service:
+        annotations:
+           service.beta.kubernetes.io/azure-load-balancer-internal: "true"
