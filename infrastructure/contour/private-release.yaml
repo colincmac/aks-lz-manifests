@@ -21,9 +21,6 @@ spec:
   # https://github.com/bitnami/charts/tree/master/bitnami/contour
   values:
     contour:
-      service:
-        annotations:
-           service.beta.kubernetes.io/azure-load-balancer-internal: "true"
       ingressClass:
         name: 'contour-private'
         default: false

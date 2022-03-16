@@ -4,3 +4,4 @@ namespace: flux-system
 resources:
   - bitnami.yaml
   - keda.yaml
+  - haproxytech.yaml
