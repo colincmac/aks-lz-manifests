@@ -1,27 +1,28 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: contour-public
+  name: nginx-public
   namespace: flux-system
 spec:
-  releaseName: contour-ingress-public
+  releaseName: nginx-ingress-public
   targetNamespace: core
   chart:
     spec:
-      chart: contour
+      chart: ingress-nginx
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: ingress-nginx
         namespace: flux-system
       # version: "" latest
   interval: 1h0m0s
   install:
     remediation:
       retries: 3
-  # https://github.com/bitnami/charts/tree/master/bitnami/contour
+  # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
   values:
-    contour:
-      manageCRDs: false
-      ingressClass:
-        name: 'contour-public'
+    controller:
+      image:
+        allowPrivilegeEscalation: false
+      ingressClassResource:
+        name: 'nginx-public'
         default: true
