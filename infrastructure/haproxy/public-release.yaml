@@ -27,7 +27,9 @@ spec:
         name: haproxy-public
         default: false
       podLabels:
-        aadpodidbinding: core-certmanager
+        aadpodidbinding: certmanager
+      defaultTLSSecret:
+        secret: colinmac-dev-tls
       extraVolumes:
           - name: colinmac-tls # TODO: variable
             csi:

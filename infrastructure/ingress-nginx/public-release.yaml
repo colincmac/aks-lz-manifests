@@ -20,7 +20,7 @@ spec:
   values:
     controller:
       podLabels:
-        aadpodidbinding: core-certmanager
+        aadpodidbinding: certmanager
       extraVolumes:
           - name: colinmac-tls # TODO: variable
             csi:

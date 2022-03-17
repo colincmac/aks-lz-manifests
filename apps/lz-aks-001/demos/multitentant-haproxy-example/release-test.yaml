@@ -41,4 +41,4 @@ spec:
       tls:
        - secretName: colinmac-dev-tls
          hosts:
-           - colinmac.dev
+           - app1-test.colinmac.dev
