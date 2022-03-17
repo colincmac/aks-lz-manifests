@@ -28,5 +28,18 @@ spec:
       ingressClassResource:
         name: haproxy-public
         default: false
+      podLabels:
+        aadpodidbinding: core-certmanager
+      extraVolumes:
+          - name: colinmac-tls # TODO: variable
+            csi:
+              driver: secrets-store.csi.k8s.io
+              readOnly: true
+              volumeAttributes:
+                secretProviderClass: "colinmac-dev-tls" # TODO: variable
+      extraVolumeMounts:
+          - name: colinmac-tls # TODO: variable
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
     defaultBackend: 
       enabled: false

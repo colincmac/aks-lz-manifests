@@ -21,6 +21,19 @@ spec:
   # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
   values:
     controller:
+      podLabels:
+        aadpodidbinding: core-certmanager
+      extraVolumes:
+          - name: colinmac-tls # TODO: variable
+            csi:
+              driver: secrets-store.csi.k8s.io
+              readOnly: true
+              volumeAttributes:
+                secretProviderClass: "colinmac-local-tls" # TODO: variable
+      extraVolumeMounts:
+          - name: colinmac-tls # TODO: variable
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
       service:
           annotations:
             # Create internal LB
@@ -29,4 +42,4 @@ spec:
         allowPrivilegeEscalation: false
       ingressClassResource:
         name: 'nginx-private'
-        default: true
+        default: false

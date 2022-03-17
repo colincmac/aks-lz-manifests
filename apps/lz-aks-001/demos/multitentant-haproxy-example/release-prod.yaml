@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: demo-routing-haproxy-prod
+  namespace: flux-system
+spec:
+  releaseName: demo-routing-haproxy-prod
+  targetNamespace: haproxydemo-prod
+  interval: 10m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: ./charts/azure-basic-api
+      # version: "" latest
+      sourceRef:
+        kind: GitRepository
+        name: core-services
+        namespace: flux-system
+  values:
+    fullnameOverride: demo-routing-haproxy-prod
+    deployment:
+      image: "colinmac.azurecr.io/samples/simplegreeting"
+      pullPolicy: Always
+      tag: latest
+    ingress:
+      enabled: "true"
+      className: haproxy-public
+      annotations:
+        haproxy.org/path-rewrite: /$1
+      hosts:
+      - host: "app1-prod.colinmac.dev"
+        paths:
+          - path: /(.*)
+            pathType: ImplementationSpecific
+      tls:
+       - secretName: colinmac-dev-tls
+         hosts:
+           - colinmac.dev

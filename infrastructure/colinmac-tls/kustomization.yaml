@@ -1,0 +1,8 @@
+# TODO: this currently needs environment variables. Need to update to deploy without hardcoded values.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - core-tls-identity.yaml
+  - core-tls-binding.yaml
+  - private-tls-secret.yaml
+  - public-tls-secret.yaml
