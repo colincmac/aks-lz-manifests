@@ -1,0 +1,25 @@
+{{- if .Values.azureIdentity.enabled }}
+# TODO: Allow reuse of Identity & Binding by name override
+
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: {{ include "secure-api.fullname" . }}
+  labels:
+    {{- include "secure-api.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.azureIdentity.type | default 0 }}
+  resourceID: {{ include "app.azureIdentity.resourceId" . }}
+  clientID: {{ required ".Values.azureIdentity.clientId is required!" .Values.azureIdentity.clientId }}
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: {{ include "secure-api.fullname" . }}
+  labels:
+    {{- include "secure-api.labels" . | nindent 4 }}
+spec:
+  azureIdentity: {{ include "secure-api.fullname" . }}
+  selector: {{ required ".Values.azureIdentity.selector is required!" .Values.azureIdentity.selector }}
+
+{{- end }}

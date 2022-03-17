@@ -9,7 +9,7 @@ deployment:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-
+  env: {}
   imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
@@ -63,9 +63,19 @@ ingress:
 azureIdentity:
   enabled: false
   selector: ""
+  resourceId: ""
+  clientId: ""
+  type: 0
 
-keyVault:
+azureSecretsProvider:
   enabled: false
+  mountSecrets: false
+  syncSecrets: false
+  tenant: ""
+  keyVaultName: ""
+  usePodIdentity: true
+  mountPath: "/mnt/secrets-store"
+
 
 nodeSelector: {}
 

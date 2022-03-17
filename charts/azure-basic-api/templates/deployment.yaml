@@ -41,6 +41,14 @@ spec:
             {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.deployment.resources | nindent 12 }}
+          env:
+            {{- toYaml .Values.deployment.env | nindent 12 }}
+          {{- if .Values.azureSecretsProvider.mountSecrets }}
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: {{ .Values.azureSecretsProvider.mountPath }}
+              readOnly: true
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -53,3 +61,14 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.azureSecretsProvider.mountSecrets }}
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "secure-api.fullname" . }}
+      {{- end }}
+
+
