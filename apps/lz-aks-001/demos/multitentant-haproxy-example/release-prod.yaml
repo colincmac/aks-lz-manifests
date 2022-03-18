@@ -34,12 +34,12 @@ spec:
           hostPort: 443
           protocol: TCP
     ingress:
-      className: haproxy-public
+      className: haproxy-private
       annotations:
         haproxy.org/path-rewrite: /$1
         haproxy.org/ssl-redirect: "true"
       hosts:
-      - host: "prod.colinmac.dev"
+      - host: "prod.colinmac.local"
         paths:
           - path: /red/(.*)
             pathType: ImplementationSpecific
@@ -81,12 +81,12 @@ spec:
           hostPort: 443
           protocol: TCP
     ingress:
-      className: haproxy-public
+      className: haproxy-private
       annotations:
         haproxy.org/path-rewrite: /$1
         haproxy.org/ssl-redirect: "true"
       hosts:
-      - host: "prod.colinmac.dev"
+      - host: "prod.colinmac.local"
         paths:
           - path: /blue/(.*)
             pathType: ImplementationSpecific
