@@ -1,10 +1,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: demo-routing-haproxy-prod
+  name: demo-redapp-prod
   namespace: core
 spec:
-  releaseName: demo-routing-haproxy-prod
+  releaseName: demo-redapp-prod
   targetNamespace: prod
   interval: 10m
   install:
@@ -19,7 +19,7 @@ spec:
         name: core-system
         namespace: core
   values:
-    fullnameOverride: demo-routing-haproxy-prod
+    fullnameOverride: demo-redapp-prod
     deployment:
       image: 
         repository: "colinmac.azurecr.io/samples/simplegreeting"
@@ -27,7 +27,7 @@ spec:
         tag: latest
       env:
         - name: GREETING
-          value: "Hello from HAProxy PROD env!"
+          value: "Hello from HAProxy's RED PROD env!"
       containerPorts:
         - name: https
           containerPort: 443
@@ -39,8 +39,55 @@ spec:
         haproxy.org/path-rewrite: /$1
         haproxy.org/ssl-redirect: "true"
       hosts:
-      - host: "app1-prod.colinmac.dev"
+      - host: "prod.colinmac.dev"
         paths:
-          - path: /(.*)
+          - path: /red/(.*)
+            pathType: ImplementationSpecific
+            servicePort: 443
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: demo-blueapp-prod
+  namespace: core
+spec:
+  releaseName: demo-blueapp-prod
+  targetNamespace: prod
+  interval: 10m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: ./charts/azure-basic-api
+      # version: "" latest
+      sourceRef:
+        kind: GitRepository
+        name: core-system
+        namespace: core
+  values:
+    fullnameOverride: demo-blueapp-prod
+    deployment:
+      image: 
+        repository: "colinmac.azurecr.io/samples/simplegreeting"
+        pullPolicy: Always
+        tag: latest
+      env:
+        - name: GREETING
+          value: "Hello from HAProxy's BLUE PROD env!"
+      containerPorts:
+        - name: https
+          containerPort: 443
+          hostPort: 443
+          protocol: TCP
+    ingress:
+      className: haproxy-public
+      annotations:
+        haproxy.org/path-rewrite: /$1
+        haproxy.org/ssl-redirect: "true"
+      hosts:
+      - host: "prod.colinmac.dev"
+        paths:
+          - path: /blue/(.*)
             pathType: ImplementationSpecific
             servicePort: 443
