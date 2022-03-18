@@ -10,6 +10,11 @@ deployment:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   env: {}
+  containerPorts:
+    - name: https
+      containerPort: 443
+      hostPort: 443
+      protocol: TCP
   imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
@@ -44,7 +49,6 @@ service:
       name: https
 
 ingress:
-  enabled: false
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -54,6 +58,7 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+          servicePort: 443
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

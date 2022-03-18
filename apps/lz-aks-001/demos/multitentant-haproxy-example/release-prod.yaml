@@ -21,13 +21,19 @@ spec:
   values:
     fullnameOverride: demo-routing-haproxy-prod
     deployment:
-      image: "colinmac.azurecr.io/samples/simplegreeting"
-      pullPolicy: Always
-      tag: latest
+      image: 
+        repository: "colinmac.azurecr.io/samples/simplegreeting"
+        pullPolicy: Always
+        tag: latest
       env:
-        GREETING: "Hello from HAProxy Prod env!"
+        - name: GREETING
+          value: "Hello from HAProxy PROD env!"
+      containerPorts:
+        - name: https
+          containerPort: 443
+          hostPort: 443
+          protocol: TCP
     ingress:
-      enabled: true
       className: haproxy-public
       annotations:
         haproxy.org/path-rewrite: /$1
@@ -37,7 +43,4 @@ spec:
         paths:
           - path: /(.*)
             pathType: ImplementationSpecific
-      tls:
-       - secretName: colinmac-dev-tls
-         hosts:
-           - app1-prod.colinmac.dev
+            servicePort: 443

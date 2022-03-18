@@ -1,4 +1,3 @@
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -33,9 +32,8 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include "secure-api.fullname" . }}
+                name: {{ include "secure-api.fullname" $ }}
                 port:
-                  number: {{ .Values.service.port }}
+                  number: {{ .servicePort }}
           {{- end }}
     {{- end }}
-{{- end }}
