@@ -40,7 +40,7 @@ spec:
     ingress:
       className: haproxy-private
       annotations:
-        haproxy.org/path-rewrite: /$1
+        haproxy.org/path-rewrite: /$2
         haproxy.org/ssl-redirect: "true"
       hosts:
       - host: "prod.colinmac.local"
