@@ -16,7 +16,7 @@ spec:
       # version: "" latest
       sourceRef:
         kind: GitRepository
-        name: core-services
+        name: core-system
         namespace: core
   values:
     fullnameOverride: demo-routing-haproxy-prod
