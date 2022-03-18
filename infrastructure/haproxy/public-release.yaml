@@ -28,8 +28,6 @@ spec:
         default: false
       podLabels:
         aadpodidbinding: certmanager
-      defaultTLSSecret:
-        secret: colinmac-dev-tls
       extraVolumes:
           - name: colinmac-tls # TODO: variable
             csi:
@@ -41,5 +39,7 @@ spec:
           - name: colinmac-tls # TODO: variable
             mountPath: "/mnt/secrets-store"
             readOnly: true
+      defaultTLSSecret:
+        secret: colinmac-dev-tls
     defaultBackend: 
       enabled: false

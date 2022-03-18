@@ -5,7 +5,7 @@ metadata:
   namespace: core
 spec:
   releaseName: demo-routing-haproxy-prod
-  targetNamespace: haproxydemo-prod
+  targetNamespace: prod
   interval: 10m
   install:
     remediation:
@@ -16,7 +16,7 @@ spec:
       # version: "" latest
       sourceRef:
         kind: GitRepository
-        name: core
+        name: core-services
         namespace: core
   values:
     fullnameOverride: demo-routing-haproxy-prod
@@ -26,13 +26,12 @@ spec:
       tag: latest
       env:
         GREETING: "Hello from HAProxy Prod env!"
-      podAnnotations:
-        aadpodidbinding: "certmanager"
     ingress:
       enabled: true
       className: haproxy-public
       annotations:
         haproxy.org/path-rewrite: /$1
+        haproxy.org/ssl-redirect: "true"
       hosts:
       - host: "app1-prod.colinmac.dev"
         paths:

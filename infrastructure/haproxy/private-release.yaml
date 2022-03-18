@@ -41,5 +41,7 @@ spec:
           - name: colinmac-tls # TODO: variable
             mountPath: "/mnt/secrets-store"
             readOnly: true
+      defaultTLSSecret:
+        secret: colinmac-local-tls
     defaultBackend: 
       enabled: false
