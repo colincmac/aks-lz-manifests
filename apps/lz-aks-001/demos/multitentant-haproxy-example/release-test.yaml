@@ -27,7 +27,7 @@ spec:
         tag: latest
       env:
         - name: GREETING
-          value: "Hello from HAProxy RED TEST env!"
+          value: "Hello from HAProxy's RED TEST env!"
       containerPorts:
         - name: https
           containerPort: 443
