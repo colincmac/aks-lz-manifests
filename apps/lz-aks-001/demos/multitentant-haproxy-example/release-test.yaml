@@ -82,6 +82,10 @@ spec:
           containerPort: 443
           hostPort: 443
           protocol: TCP
+        - name: http
+          containerPort: 80
+          hostPort: 443
+          protocol: TCP
     ingress:
       className: haproxy-private
       annotations:
