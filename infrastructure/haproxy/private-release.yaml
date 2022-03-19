@@ -19,6 +19,8 @@ spec:
   # https://github.com/haproxytech/helm-charts/blob/main/kubernetes-ingress/values.yaml
   values:
     controller:
+      logging:
+        level: debug
       service:
         type: LoadBalancer
         annotations:
@@ -43,4 +45,4 @@ spec:
       defaultTLSSecret:
         secret: colinmac-local-tls
     defaultBackend: 
-      enabled: true
+      enabled: false

@@ -33,18 +33,32 @@ spec:
           containerPort: 443
           hostPort: 443
           protocol: TCP
+        - name: http
+          containerPort: 80
+          hostPort: 80
+          protocol: TCP
     ingress:
       className: haproxy-private
       annotations:
-        haproxy.org/path-rewrite: /$1
-        haproxy.org/ssl-redirect: "true"
+        haproxy.org/path-rewrite: /red(.*) \1
         # haproxy.org/ssl-certificate: "core/colinmac-dev-tls"
       hosts:
       - host: "test.colinmac.local"
         paths:
-          - path: /red/(.*)
-            pathType: ImplementationSpecific
-            servicePort: 443
+          - path: /red
+            pathType: Prefix
+            servicePort: 80
+    service:
+      type: ClusterIP
+      ports:
+        - port: 443
+          targetPort: https
+          protocol: TCP
+          name: https
+        - port: 80
+          targetPort: http
+          protocol: TCP
+          name: http
 ---
 
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
@@ -89,12 +103,22 @@ spec:
     ingress:
       className: haproxy-private
       annotations:
-        haproxy.org/path-rewrite: /$1
-        haproxy.org/ssl-redirect: "true"
+        haproxy.org/path-rewrite: /blue(.*) \1
         # haproxy.org/ssl-certificate: "core/colinmac-dev-tls"
       hosts:
       - host: "test.colinmac.local"
         paths:
-          - path: /blue/(.*)
-            pathType: ImplementationSpecific
-            servicePort: 443
+          - path: /blue
+            pathType: Prefix
+            servicePort: 80
+    service:
+      type: ClusterIP
+      ports:
+        - port: 443
+          targetPort: https
+          protocol: TCP
+          name: https
+        - port: 80
+          targetPort: http
+          protocol: TCP
+          name: http

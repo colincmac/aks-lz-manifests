@@ -1,65 +1,64 @@
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: demo-redapp-prod
-#   namespace: core
-# spec:
-#   releaseName: demo-redapp-prod
-#   targetNamespace: prod
-#   interval: 10m
-#   install:
-#     remediation:
-#       retries: 3
-#   chart:
-#     spec:
-#       chart: ./charts/azure-basic-api
-#       # version: "" latest
-#       sourceRef:
-#         kind: GitRepository
-#         name: core-system
-#         namespace: core
-#   values:
-#     fullnameOverride: demo-redapp-prod
-#     deployment:
-#       image: 
-#         repository: "colinmac.azurecr.io/samples/simplegreeting"
-#         pullPolicy: Always
-#         tag: latest
-#       env:
-#         - name: GREETING
-#           value: "Hello from HAProxy's RED PROD env!"
-#       containerPorts:
-#         - name: https
-#           containerPort: 443
-#           hostPort: 443
-#           protocol: TCP
-#         - name: http
-#           containerPort: 80
-#           hostPort: 80
-#           protocol: TCP
-#     ingress:
-#       className: haproxy-private
-#       annotations:
-#         haproxy.org/path-rewrite: /$2
-#         haproxy.org/ssl-redirect: "true"
-#       hosts:
-#       - host: "prod.colinmac.local"
-#         paths:
-#           - path: /red(/|$)(.*)
-#             pathType: ImplementationSpecific
-#             servicePort: 443
-#     service:
-#       type: ClusterIP
-#       ports:
-#         - port: 80
-#           targetPort: http
-#           protocol: TCP
-#           name: http
-#         - port: 443
-#           targetPort: https
-#           protocol: TCP
-#           name: https
-# ---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: demo-redapp-prod
+  namespace: core
+spec:
+  releaseName: demo-redapp-prod
+  targetNamespace: prod
+  interval: 10m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: ./charts/azure-basic-api
+      # version: "" latest
+      sourceRef:
+        kind: GitRepository
+        name: core-system
+        namespace: core
+  values:
+    fullnameOverride: demo-redapp-prod
+    deployment:
+      image: 
+        repository: "colinmac.azurecr.io/samples/simplegreeting"
+        pullPolicy: Always
+        tag: latest
+      env:
+        - name: GREETING
+          value: "Hello from HAProxy's RED PROD env!"
+      containerPorts:
+        - name: https
+          containerPort: 443
+          hostPort: 443
+          protocol: TCP
+        - name: http
+          containerPort: 80
+          hostPort: 80
+          protocol: TCP
+    ingress:
+      className: haproxy-private
+      annotations:
+        haproxy.org/path-rewrite: /red(.*) \1
+      hosts:
+      - host: "prod.colinmac.local"
+        paths:
+          - path: /red
+            pathType: Prefix
+            servicePort: 80
+    service:
+      type: ClusterIP
+      ports:
+        - port: 80
+          targetPort: http
+          protocol: TCP
+          name: http
+        - port: 443
+          targetPort: https
+          protocol: TCP
+          name: https
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -102,12 +101,12 @@ spec:
     ingress:
       className: haproxy-private
       annotations:
-        haproxy.org/path-rewrite: /$1
+        haproxy.org/path-rewrite: /blue(.*) \1
       hosts:
       - host: "prod.colinmac.local"
         paths:
-          - path: /(.*)
-            pathType: ImplementationSpecific
+          - path: /blue
+            pathType: Prefix
             servicePort: 80
     service:
       type: ClusterIP

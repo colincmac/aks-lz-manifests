@@ -19,6 +19,8 @@ spec:
   # https://github.com/haproxytech/helm-charts/blob/main/kubernetes-ingress/values.yaml
   values:
     controller:
+      logging:
+        level: debug
       replicaCount: 1
       service:
         type: LoadBalancer
