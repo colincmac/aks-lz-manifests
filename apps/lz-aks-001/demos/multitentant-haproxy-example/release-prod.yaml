@@ -47,14 +47,14 @@ spec:
         paths:
           - path: /red(/|$)(.*)
             pathType: ImplementationSpecific
-            servicePort: 80
+            servicePort: 443
     service:
       type: ClusterIP
       ports:
-        - port: 80
-          targetPort: http
+        - port: 443
+          targetPort: https
           protocol: TCP
-          name: http
+          name: https
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -105,11 +105,11 @@ spec:
         paths:
           - path: /blue(/|$)(.*)
             pathType: ImplementationSpecific
-            servicePort: 80
+            servicePort: 443
     service:
       type: ClusterIP
       ports:
-        - port: 80
-          targetPort: http
+        - port: 443
+          targetPort: https
           protocol: TCP
-          name: http
+          name: https
