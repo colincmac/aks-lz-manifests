@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: shared-services-staging
+  namespace: shared-services-staging
+spec:
+  path: ../_base/shared-services-team
+  postBuild:
+    substitute:
+      team: shared-services-developers
+      namespace: shared-services-staging
+      pci-scope: out-of-scope
+      # You would want to separate these roles in real-world scenarios
+      adminGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
+      editorGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
+      viewerGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5

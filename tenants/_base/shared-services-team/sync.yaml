@@ -1,0 +1,22 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: ${team}
+spec:
+  interval: 10m
+  url: https://github.com/colincmac/aks-lz-shared-services-manifests
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: ${team}
+spec:
+  serviceAccountName: shared-services-team
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: shared-services-team
+  prune: true
+  validation: client

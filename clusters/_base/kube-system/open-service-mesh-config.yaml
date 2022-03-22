@@ -1,0 +1,43 @@
+apiVersion: config.openservicemesh.io/v1alpha1
+kind: MeshConfig
+metadata:
+  name: osm-mesh-config
+  namespace: kube-system
+spec:
+  # certificate:
+  #   certKeyBitSize: 2048
+  #   serviceCertValidityDuration: 24h
+  #   ingressGateway:
+  #     secret:
+  #       name: osm-nginx-client-cert
+  #       namespace: ingress-nginx
+  #     subjectAltNames: 
+  #       - ingress-nginx.ingress-nginx.cluster.local
+  #     validityDuration: 240h
+  #     # Currently nginx will not reload this certificate after it expires in 10 days, please see the following two GitHub issues to track this issue:
+  #     # https://github.com/kubernetes/ingress-nginx/issues/5608
+  #     # https://github.com/openservicemesh/osm/issues/4394
+  featureFlags:
+    enableEgressPolicy: true
+    enableWASMStats: true
+    enableMulticlusterMode: false
+    enableSnapshotCacheMode: false
+    enableAsyncProxyServiceMapping: false
+    enableIngressBackendPolicy: true
+    enableEnvoyActiveHealthChecks: false
+    enableRetryPolicy: false
+  observability:
+    enableDebugServer: false
+    osmLogLevel: info
+    tracing:
+      enable: false
+  sidecar:
+    enablePrivilegedInitContainer: false
+    logLevel: error
+    maxDataPlaneConnections: 0
+  traffic:
+    enableEgress: true
+    enablePermissiveTrafficPolicyMode: false
+    outboundIPRangeExclusionList:
+      - 169.254.169.254/32 # Azure Instance Metadata Service
+      - 168.63.129.16/32 # Azure DNS

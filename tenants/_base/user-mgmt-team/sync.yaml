@@ -1,0 +1,23 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: shared-services-team
+spec:
+  interval: 10m
+  url: https://github.com/fluxcd/flux2-multi-tenancy
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: shared-services-team
+  namespace: shared-services
+spec:
+  serviceAccountName: shared-services-team
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: shared-services-team
+  prune: true
+  validation: client

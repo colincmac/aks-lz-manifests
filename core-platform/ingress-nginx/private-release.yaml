@@ -1,0 +1,59 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nginx-private
+spec:
+  releaseName: nginx-ingress-private
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: core
+      # version: "" latest
+  interval: 1h0m0s
+  install:
+    remediation:
+      retries: 3
+  # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+  values:
+    commonLabels:
+      pci-scope: out-of-scope
+    controller:
+      podLabels:
+        aadpodidbinding: cert-provider
+      nodeSelector:
+        kubernetes.io/os: linux
+        # pci-scope: out-of-scope TODO: regulated
+      extraVolumes:
+          - name: colinmac-tls # TODO: variable
+            csi:
+              driver: secrets-store.csi.k8s.io
+              readOnly: true
+              volumeAttributes:
+                secretProviderClass: "colinmac-local-tls" # TODO: variable
+      extraVolumeMounts:
+          - name: colinmac-tls # TODO: variable
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+      service:
+          annotations:
+            # Create internal LB
+            service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+          enableHttp: false
+          # Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
+          externalTrafficPolicy: Local
+      
+      ## TODO: regulated
+      # image:
+        # registry: k8s.gcr.io
+        # image: ingress-nginx/controller
+        # ## for backwards compatibility consider setting the full image url via the repository value below
+        # ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
+        # ## repository:
+        # tag: "v1.1.2"
+        # digest: sha256:28b11ce69e57843de44e3db6413e98d09de0f6688e33d4bd384002a44f78405c
+      ingressClassResource:
+        name: 'nginx-private'
+        default: true

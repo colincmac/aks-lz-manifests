@@ -1,0 +1,62 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  namespace: flux-system
+resources:
+  - namespace.yaml
+  - flux-pod-identity-exception.yaml
+  - resource-quota.yaml
+  - limit-range.yaml
+  - gotk-crds.yaml
+  - gotk-rbac.yaml
+  - gotk-components.yaml
+  - gotk-sync.yaml
+patches:
+  # Apply namespace scoped configuration
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/0
+        value: --no-cross-namespace-refs=true      
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|notification-controller|image-reflector-controller|image-automation-controller)"
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/0
+        value: --default-service-account=default      
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller)"
+  - patch: |
+      - op: add
+        path: /spec/serviceAccountName
+        value: kustomize-controller      
+    target:
+      kind: Kustomization
+      name: "flux-system"
+
+  # Apply out of scope PCI label on flux deployments
+  # TODO: optimize -- this should probably be a common patch that can be applied
+  - patch: |
+      - op: add
+        path: /metadata/labels/colinmac.dev~1pci-scope
+        value: out-of-scope
+      - op: add
+        path: /spec/template/metadata/labels/colinmac.dev~1pci-scope
+        value: out-of-scope
+    target:
+      kind: Deployment
+      labelSelector: "app.kubernetes.io/part-of=flux"
+
+## TODO: compliance -- Use self-hosted images
+# images: 
+# - name: ghcr.io/fluxcd/source-controller
+#   newName: REPLACE_ME_WITH_YOUR_ACRNAME.azurecr.io/live/fluxcd/source-controller
+# - name: ghcr.io/fluxcd/kustomize-controller
+#   newName: REPLACE_ME_WITH_YOUR_ACRNAME.azurecr.io/live/fluxcd/kustomize-controller
+# - name: ghcr.io/fluxcd/kustomize-controller
+#   newName: REPLACE_ME_WITH_YOUR_ACRNAME.azurecr.io/live/fluxcd/notification-controller
+# - name: ghcr.io/fluxcd/kustomize-controller
+#   newName: REPLACE_ME_WITH_YOUR_ACRNAME.azurecr.io/live/fluxcd/image-reflector-controller
+# - name: ghcr.io/fluxcd/kustomize-controller
+#   newName: REPLACE_ME_WITH_YOUR_ACRNAME.azurecr.io/live/fluxcd/image-automation-controller
