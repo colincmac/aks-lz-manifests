@@ -4,6 +4,7 @@ metadata:
   name: core-platform-config
 spec:
   path: ./tenants/_base/core-platform-team
+  targetNamespace: core-platform
   prune: true
   interval: 10m
   sourceRef:
