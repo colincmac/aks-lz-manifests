@@ -1,23 +1,26 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: shared-services-team
+  name: ${team}
+  namespace: ${namespace}
 spec:
   interval: 10m
-  url: https://github.com/fluxcd/flux2-multi-tenancy
+  url: https://github.com/colincmac/aks-lz-manifests
   ref:
     branch: main
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: shared-services-team
-  namespace: shared-services
+  name: ${team}
+  namespace: ${namespace}
 spec:
-  serviceAccountName: shared-services-team
+  path: ./core-platform
+  serviceAccountName: ${team}
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: shared-services-team
+    name: ${team}
   prune: true
   validation: client
+

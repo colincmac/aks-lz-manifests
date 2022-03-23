@@ -1,15 +1,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: core-platform-prod
-  namespace: core-platform-prod
+  name: core-platform
 spec:
-  path: ../_base/core-platform-team
+  path: ./tenants/_base/core-platform-team
+  prune: true
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   postBuild:
     substitute:
       team: core-platform-developers
-      namespace: core-platform-prod # TODO: optimize -- figure out way to infer namespace in variable
-      pci-scope: out-of-scope
+      namespace: core-platform
+      pci_scope: out-of-scope
       # You would want to separate these roles in real-world scenarios
       adminGroup: a5892987-ce42-4067-be7c-ac40c6ecc3bf
       editorGroup: a5892987-ce42-4067-be7c-ac40c6ecc3bf

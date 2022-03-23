@@ -10,7 +10,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: haproxytech
-        namespace: core
+        namespace: core-platform
       # version: "" latest
   interval: 1h0m0s
   install:

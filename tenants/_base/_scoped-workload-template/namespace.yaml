@@ -5,7 +5,7 @@ metadata:
   labels:
     openservicemesh.io/monitored-by: osm
     toolkit.fluxcd.io/tenant: "${team}"
-    colinmac.dev/pci-scope: "${pci-scope}"
+    colinmac.dev/pci-scope: "${pci_scope}"
     colinmac.dev/team: "${team}"
   annotations:
     openservicemesh.io/sidecar-injection: enabled

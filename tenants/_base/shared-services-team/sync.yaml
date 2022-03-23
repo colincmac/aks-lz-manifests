@@ -2,6 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
   name: ${team}
+  namespace: ${namespace}
 spec:
   interval: 10m
   url: https://github.com/colincmac/aks-lz-shared-services-manifests
@@ -12,6 +13,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: ${team}
+  namespace: ${namespace}
 spec:
   serviceAccountName: shared-services-team
   interval: 5m

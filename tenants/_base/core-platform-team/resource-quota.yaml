@@ -2,47 +2,59 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: default
+  namespace: ${namespace}
 spec:
   hard:
-    # 100m - microservice-a
-    # 100m - microservice-b
-    # 200m - Allow for x2 horizontal growth on above
+    # 100m - haproxy-ingress-controller-private (default)
+    # 100m - nginx-ingress-controller-private
+    # 100m - keda-operator
+    # 100m - keda-metric-server
+    # 800m - Allow for x2 horizontal growth on above
     # 100m - Rolling updates
-    requests.cpu: 500m
+    requests.cpu: 1300m
 
-    # 200Mi - microservice-a
-    # 200Mi - microservice-b
-    # 400Mi - Allow for x2 horizontal growth on above
-    # 200Mi - Rolling updates
-    requests.memory: 1Gi
+    # 100Mi - haproxy-ingress-controller-private (default)
+    # 90Mi - nginx-ingress-controller-private
+    # 100Mi - keda-operator
+    # 100Mi - keda-metric-server
+    # 800Mi - Allow for x2 horizontal growth on above
+    # 100Mi - Rolling updates
+    requests.memory: 1290Mi
     requests.storage: "0"
 
-    # 400m - microservice-a
-    # 400m - microservice-b
-    # 800m - Allow for x2 horizontal growth on above
-    # 400m - Rolling updates
-    limits.cpu: 2000m
+    # 200m - haproxy-ingress-controller-private (default)
+    # 200m - nginx-ingress-controller-private (default)
+    # 1000m - keda-operator
+    # 1000m - keda-metric-server
+    # 2400m - Allow for x2 horizontal growth on above
+    # 200m - Rolling updates
+    limits.cpu: 5000m
 
-    # 800Mi - microservice-a
-    # 800Mi - microservice-b
-    # 1600Mi - Allow for x2 horizontal growth on above
-    # 800Mi - Rolling updates
-    limits.memory: 4Gi
+    # 200Mi - haproxy-ingress-controller-private (default)
+    # 200Mi - nginx-ingress-controller-private (default)
+    # 1000Mi - keda-operator
+    # 1000Mi - keda-metric-server
+    # 2400Mi - Allow for x2 horizontal growth on above
+    # 200Mi - Rolling updates
+    limits.memory: 5000Mi
     count/persistentvolumeclaims: "0"
-    count/services.loadbalancers: "0"
+
+    # 1 - Keda (ClusterIP)
+    # 1 - haproxy-ingress-controller-private (LoadBalancer)
+    # 1 - nginx-ingress-controller-private (LoadBalancer)
+    count/services: "3"
+    count/services.loadbalancers: "2"
     count/services.nodeports: "0"
 
-    # 1 - microservice-a
-    # 1 - microservice-b
-    count/deployments.apps: "2"
+    # 1 - keda-operator
+    # 1 - haproxy-ingress-controller-private (LoadBalancer)
+    # 1 - nginx-ingress-controller-private (LoadBalancer)
+    count/deployments.apps: "3"
     count/daemonset.apps: "0"
 
-    # 1 - microservice-a
-    # 1 - microservice-b
-    count/services: "2"
-
-    # 2 - microservice-a
-    # 2 - microservice-b
+    # 1 - haproxy-ingress-controller-private
+    # 1 - nginx-ingress-controller-private
+    # 2 - keda
     # 4 - Allow for x2 horizontal growth on above
     # 2 - Rolling updates
     count/pods: "10"

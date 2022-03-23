@@ -1,15 +1,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: shared-services-prod
-  namespace: shared-services-prod
+  name: shared-services
 spec:
-  path: ../_base/shared-services-team
+  path: ./tenants/_base/shared-services-team
+  prune: true
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   postBuild:
     substitute:
       team: shared-services-developers
-      namespace: shared-services-prod
-      pci-scope: out-of-scope
+      namespace: shared-services
+      pci_scope: out-of-scope
       # You would want to separate these roles in real-world scenarios
       adminGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
       editorGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
