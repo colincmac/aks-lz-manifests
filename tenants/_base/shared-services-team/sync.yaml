@@ -15,10 +15,10 @@ metadata:
   name: ${team}
   namespace: ${namespace}
 spec:
-  serviceAccountName: shared-services-team
+  serviceAccountName: ${team}
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: shared-services-team
+    name: ${team}
   prune: true
   validation: client
