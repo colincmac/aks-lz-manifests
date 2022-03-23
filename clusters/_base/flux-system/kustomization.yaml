@@ -3,10 +3,10 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - flux-pod-identity-exception.yaml
-  - resource-quota.yaml
-  - limit-range.yaml
   - gotk-components.yaml
   - gotk-sync.yaml
+  - resource-quota.yaml
+  - limit-range.yaml
 patches:
   # Apply namespace scoped configuration
   - patch: |

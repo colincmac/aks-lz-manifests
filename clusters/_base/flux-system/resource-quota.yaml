@@ -4,15 +4,32 @@ metadata:
   name: default
 spec:
   hard:
-    requests.cpu: "1"
-    requests.memory: 1Gi
-    requests.storage: "0"
-    limits.cpu: "4"
-    limits.memory: 4Gi
     count/persistentvolumeclaims: "0"
     count/services.loadbalancers: "0"
     count/services.nodeports: "0"
-    count/deployments.apps: "2"
     count/daemonset.apps: "0"
-    count/services: "2"
-    count/pods: "4"
+
+
+    requests.storage: "0"
+
+
+    # 100/1 - helm-controller
+    # 100/1 - notification-controller
+    # 100/1 - source-controller
+    # 100/1 - kustomize-controller
+    # x2 for rollout
+    count/deployments.apps: "4"
+    count/pods: "8"
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "8"
+    limits.memory: 8Gi
+
+    # 1 - webhook-receiver
+    # 1 - notification-controller
+    # 1 - source-controller
+    count/services: "3"
+
+
+
+
