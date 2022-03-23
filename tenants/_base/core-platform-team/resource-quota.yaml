@@ -53,7 +53,7 @@ spec:
     count/daemonset.apps: "0"
 
     # 1 - haproxy-ingress-controller-private
-    # 1 - nginx-ingress-controller-private
+    # 2 - nginx-ingress-controller-private 
     # 2 - keda
     # 4 - Allow for x2 horizontal growth on above
     # 2 - Rolling updates

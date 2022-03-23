@@ -15,8 +15,8 @@ spec:
       cpu: ${defaultContainerCPU:=100m}
       memory: ${defaultContainerMemory:=200Mi}
     defaultRequest:
-      cpu: ${defaultRequestContainerCPU:=0m}
-      memory: ${defaultRequestContainerMemory:=0Mi}
+      cpu: ${defaultRequestContainerCPU:=100m}
+      memory: ${defaultRequestContainerMemory:=100Mi}
     type: Container
   - max:
       storage: ${maxPVCStorage:=0Mi}

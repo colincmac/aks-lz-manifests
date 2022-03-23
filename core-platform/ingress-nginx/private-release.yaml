@@ -19,7 +19,7 @@ spec:
   # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
   values:
     commonLabels:
-      pci-scope: out-of-scope
+      colinmac.dev/pci-scope: out-of-scope
     controller:
       metrics:
         enabled: true
