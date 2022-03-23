@@ -9,6 +9,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./tenants/production
+  serviceAccountName: kustomize-controller
   prune: true
 
 ---
@@ -23,4 +24,5 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./tenants/staging
+  serviceAccountName: kustomize-controller
   prune: true
