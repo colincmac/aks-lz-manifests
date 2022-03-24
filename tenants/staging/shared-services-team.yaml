@@ -6,6 +6,7 @@ spec:
   path: ./tenants/_base/shared-services-team
   prune: true
   interval: 10m
+  serviceAccountName: kustomize-controller
   sourceRef:
     kind: GitRepository
     name: flux-system
