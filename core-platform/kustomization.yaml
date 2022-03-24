@@ -11,6 +11,6 @@ patches:
   - patch: |
       - op: add
         path: /spec/serviceAccountName
-        value: helm-controller      
+        value: core-platform-developers      
     target:
       kind: HelmRelease
