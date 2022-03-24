@@ -23,6 +23,10 @@ spec:
     controller:
       # metrics:
       #   enabled: true
+      admissionWebhooks:
+        patch:  
+          podAnnotations:
+            openservicemesh.io/sidecar-injection: disabled
       extraArgs:
         default-ssl-certificate: core-platform/colinmac-local-tls
       podLabels:
