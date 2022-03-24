@@ -7,4 +7,10 @@ resources:
   - ingress-nginx
   - keda
   - haproxy
-
+patches:
+  - patch: |
+      - op: add
+        path: /spec/serviceAccountName
+        value: core-platform-developers      
+    target:
+      kind: HelmRelease
