@@ -18,3 +18,5 @@ Flux configuration for a multi-tenant AKS cluster.
 - Move charts to signed OCI artifacts after this is done -> [FluxCD: Support Helm charts from OCI registries](https://github.com/fluxcd/source-controller/issues/124)
 - NetworkPolicy
   - core-platform - keda, ingress
+  
+- OSM will break the NGINX Helm deployment, unless the admission job pods are opt-ed out
