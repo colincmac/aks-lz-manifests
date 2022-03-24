@@ -21,8 +21,8 @@ spec:
     commonLabels:
       colinmac.dev/pci-scope: out-of-scope
     controller:
-      metrics:
-        enabled: true
+      # metrics:
+      #   enabled: true
       extraArgs:
         default-ssl-certificate: core-platform/colinmac-local-tls
       podLabels:
