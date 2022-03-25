@@ -13,8 +13,8 @@ spec:
   postBuild:
     substitute:
       team: shared-services-developers
-      syncPath: ./production
       namespace: shared-services
+      syncPath: ./production
       pciScope: out-of-scope
       # You would want to separate these roles in real-world scenarios
       adminGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5

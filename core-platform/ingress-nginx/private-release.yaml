@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: nginx-private
 spec:
-  releaseName: nginx-ingress-private
+  releaseName: ingress-nginx-private
   chart:
     spec:
       chart: ingress-nginx

@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: haproxy-private
 spec:
-  releaseName: haproxy-ingress-private
+  releaseName: haproxy-private
   chart:
     spec:
       chart: kubernetes-ingress
