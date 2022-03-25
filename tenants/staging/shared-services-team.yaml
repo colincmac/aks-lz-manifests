@@ -14,7 +14,7 @@ spec:
     substitute:
       team: shared-services-developers
       namespace: shared-services-staging
-      pci_scope: out-of-scope
+      pciScope: out-of-scope
       # You would want to separate these roles in real-world scenarios
       adminGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
       editorGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
@@ -27,3 +27,4 @@ spec:
       target:
         kind: Kustomization
         name: shared-services-developers
+        namespace: shared-services-staging

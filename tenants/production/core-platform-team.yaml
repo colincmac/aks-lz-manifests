@@ -14,7 +14,7 @@ spec:
     substitute:
       team: core-platform-developers
       namespace: core-platform
-      pci_scope: out-of-scope
+      pciScope: out-of-scope
       # You would want to separate these roles in real-world scenarios
       adminGroup: a5892987-ce42-4067-be7c-ac40c6ecc3bf
       editorGroup: a5892987-ce42-4067-be7c-ac40c6ecc3bf
