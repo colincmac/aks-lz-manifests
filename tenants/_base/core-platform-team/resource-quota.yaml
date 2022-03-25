@@ -40,15 +40,15 @@ spec:
     count/persistentvolumeclaims: "0"
 
     # 1 - Keda (ClusterIP)
-    # 1 - haproxy-ingress-controller-private (LoadBalancer)
-    # 2 - nginx-ingress private (LoadBalancer)
-    count/services: "4"
+    # 1 - haproxy-ingress-controller-private (1 LoadBalancer)
+    # 3 - nginx-ingress private (controller/metrics/admission)  (1 LoadBalancer / 2 ClusterIP)
+    count/services: "5"
     count/services.loadbalancers: "2"
     count/services.nodeports: "0"
 
     # 2 - Keda
-    # 1 - haproxy-ingress-controller-private (LoadBalancer)
-    # 1 - nginx-ingress-controller-private (LoadBalancer)
+    # 1 - haproxy-ingress-controller-private
+    # 1 - nginx-ingress-controller-private
     count/deployments.apps: "4"
     count/daemonset.apps: "0"
 
