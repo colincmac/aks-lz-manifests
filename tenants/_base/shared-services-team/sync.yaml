@@ -17,6 +17,7 @@ metadata:
 spec:
   serviceAccountName: ${team}
   interval: 5m
+  path: ${syncPath}
   sourceRef:
     kind: GitRepository
     name: ${team}
