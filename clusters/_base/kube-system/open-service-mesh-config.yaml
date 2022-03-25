@@ -5,6 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   # NOTE: During bootstrapping of a fresh cluster, this ingress won't be deployed. This race condition may cause issues.
+  # This could be patched later by a Job
   certificate:
     certKeyBitSize: 2048
     serviceCertValidityDuration: 24h
@@ -39,3 +40,4 @@ spec:
     outboundIPRangeExclusionList:
       - 169.254.169.254/32 # Azure Instance Metadata Service
       - 168.63.129.16/32 # Azure DNS
+      - 10.1.240.4/32 # Internal Kube API Server
