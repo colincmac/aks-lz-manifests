@@ -4,21 +4,17 @@ metadata:
   name: osm-mesh-config
   namespace: kube-system
 spec:
-  ## NOTE: during bootstrapping of a fresh cluster, this ingress won't be deployed
-  ## This race condition may cause issues.
-  # certificate:
-  #   certKeyBitSize: 2048
-  #   serviceCertValidityDuration: 24h
-  #   ingressGateway:
-  #     secret:
-  #       name: osm-private-nginx-client-cert
-  #       namespace: core-platform
-  #     subjectAltNames: 
-  #       - nginx-ingress-private-ingress-nginx-controller.core-platform.cluster.local
-  #     validityDuration: 240h
-  #     # Currently nginx will not reload this certificate after it expires in 10 days, please see the following two GitHub issues to track this issue:
-  #     # https://github.com/kubernetes/ingress-nginx/issues/5608
-  #     # https://github.com/openservicemesh/osm/issues/4394
+  # NOTE: During bootstrapping of a fresh cluster, this ingress won't be deployed. This race condition may cause issues.
+  certificate:
+    certKeyBitSize: 2048
+    serviceCertValidityDuration: 24h
+    ingressGateway:
+      secret:
+        name: osm-private-nginx-client-cert
+        namespace: core-platform
+      subjectAltNames: 
+        - ingress-nginx-private-controller.core-platform.cluster.local
+      validityDuration: 240h
   featureFlags:
     enableEgressPolicy: true
     enableWASMStats: true
