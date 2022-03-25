@@ -41,8 +41,8 @@ spec:
 
     # 1 - Keda (ClusterIP)
     # 1 - haproxy-ingress-controller-private (LoadBalancer)
-    # 1 - nginx-ingress-controller-private (LoadBalancer)
-    count/services: "3"
+    # 2 - nginx-ingress private (LoadBalancer)
+    count/services: "4"
     count/services.loadbalancers: "2"
     count/services.nodeports: "0"
 
