@@ -1,3 +1,4 @@
+# TODO: Migrating to kustomization based on cloud deploy https://github.com/kubernetes/ingress-nginx/blob/main/deploy/static/provider/cloud/deploy.yaml
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
