@@ -41,3 +41,4 @@ spec:
       - 169.254.169.254/32 # Azure Instance Metadata Service
       - 168.63.129.16/32 # Azure DNS
       - 10.1.240.4/32 # Internal Kube API Server
+      - 192.168.100.1/32
