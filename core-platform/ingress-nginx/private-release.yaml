@@ -51,7 +51,7 @@ spec:
             service.beta.kubernetes.io/azure-load-balancer-internal: "true"
           enableHttp: false
           # Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
-          externalTrafficPolicy: Local
+          # externalTrafficPolicy: Local
       
       ## TODO: regulated
       # image:
