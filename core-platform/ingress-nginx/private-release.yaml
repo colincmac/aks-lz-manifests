@@ -31,10 +31,6 @@ spec:
         default-ssl-certificate: core-platform/colinmac-local-tls
       podLabels:
         aadpodidbinding: cert-provider
-      podAnnotations:
-        # The Admission webhook has it's own CA for mTLS. Also there seems to be a TLS issue with
-        # OSM's Envoy sidecar and admission webhooks https://github.com/openservicemesh/osm/issues/4576
-        openservicemesh.io/inbound-port-exclusion-list: "8443" 
       nodeSelector:
         kubernetes.io/os: linux
         # pci-scope: out-of-scope TODO: regulated
