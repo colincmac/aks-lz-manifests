@@ -30,13 +30,13 @@ spec:
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         # proxy_ssl_name for a service is of the form <service-account>.<namespace>.cluster.local
         nginx.ingress.kubernetes.io/configuration-snippet: |
-          proxy_ssl_name "grafana.core-platform.cluster.local";
+          proxy_ssl_name "grafana.core-monitoring.cluster.local";
         nginx.ingress.kubernetes.io/proxy-ssl-secret: "core-platform/osm-private-nginx-client-cert"
         nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
         nginx.ingress.kubernetes.io/rewrite-target: /$1
         nginx.ingress.kubernetes.io/use-regex: "true"
 
-      path: /grafana/?(.*)      
+      path: /grafana/?(.*)
       hosts:
         - monitoring.colinmac.local
       tls:
@@ -65,8 +65,10 @@ spec:
       grafana_net:
         url: https://grafana.net
       server:
-        root_url: monitoring.colinmac.local/grafana
+        root_url: "%(protocol)s://%(domain)s/grafana"
         domain: monitoring.colinmac.local
+        serve_from_sub_path: true
+        # protocol: https
       security:
         disable_initial_admin_creation: true
       auth:
