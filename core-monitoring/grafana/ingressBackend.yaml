@@ -13,6 +13,6 @@ spec:
   sources:
   - kind: Service
     name: ingress-nginx-private-controller
-    namespace: core-platform
+    namespace: core-monitoring
   - kind: AuthenticatedPrincipal
     name: ingress-nginx-private.core-platform.cluster.local
