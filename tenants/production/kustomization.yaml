@@ -4,5 +4,6 @@ namespace: flux-system
 commonLabels:
   colinmac.dev/env: Production
 resources:
+  - ./core-monitoring-team.yaml
   - ./core-platform-team.yaml
   - ./shared-services-team.yaml

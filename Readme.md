@@ -11,12 +11,13 @@ Flux configuration for a multi-tenant AKS cluster.
 
 # TODO
 
-- PCI
-  - Update default flux deployment with appropriate labels
 - HAProxy does not update CRDs when upgrading chart
 - [NGINX Ingress hardening](https://kubernetes.github.io/ingress-nginx/deploy/hardening-guide/)
 - Move charts to signed OCI artifacts after this is done -> [FluxCD: Support Helm charts from OCI registries](https://github.com/fluxcd/source-controller/issues/124)
 - NetworkPolicy
   - core-platform - keda, ingress
-  
-- OSM will break the NGINX Helm deployment, unless the admission job pods are opt-ed out
+
+- Document
+  - <https://kubernetes.io/docs/concepts/services-networking/network-policies/>
+  - <https://github.com/servicemeshinterface/smi-spec>
+  - IngressBackend

@@ -1,0 +1,18 @@
+# Core Platform deploys cross-namespace resources.
+# The namespaced reconciler needs the same permissions as the flux-system service accounts
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    toolkit.fluxcd.io/tenant: "${team}"
+  name: cluster-reconciler-core-monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: User
+  name: gotk:${namespace}:reconciler
+- kind: ServiceAccount
+  name: ${team}
+  namespace: ${namespace}

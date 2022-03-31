@@ -5,5 +5,5 @@ resources:
   - keda.yaml
   - haproxytech.yaml
   - grafana.yaml
-  - prometheus-community.yaml
   - flagger.yaml
+  - oauth2-proxy.yaml

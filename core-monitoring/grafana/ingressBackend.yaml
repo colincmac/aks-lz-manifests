@@ -1,0 +1,18 @@
+apiVersion: policy.openservicemesh.io/v1alpha1
+kind: IngressBackend
+metadata:
+  name: grafana
+spec:
+  backends:
+  - name: grafana
+    port:
+      number: 80
+      protocol: https
+    tls:
+      skipClientCertValidation: false
+  sources:
+  - kind: Service
+    name: ingress-nginx-private-controller
+    namespace: core-platform
+  - kind: AuthenticatedPrincipal
+    name: ingress-nginx-private.core-platform.cluster.local
