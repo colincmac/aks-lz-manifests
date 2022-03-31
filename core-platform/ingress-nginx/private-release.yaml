@@ -28,7 +28,7 @@ spec:
           podAnnotations:
             openservicemesh.io/sidecar-injection: disabled
       extraArgs:
-        default-ssl-certificate: core-platform/colinmac-local-tls
+        default-ssl-certificate: core-platform/colinmac-dev-tls
       podLabels:
         aadpodidbinding: cert-provider
       nodeSelector:
@@ -40,7 +40,7 @@ spec:
               driver: secrets-store.csi.k8s.io
               readOnly: true
               volumeAttributes:
-                secretProviderClass: "colinmac-local-tls" # TODO: variable
+                secretProviderClass: "colinmac-tls" # TODO: variable
       extraVolumeMounts:
           - name: colinmac-tls # TODO: variable
             mountPath: "/mnt/secrets-store"

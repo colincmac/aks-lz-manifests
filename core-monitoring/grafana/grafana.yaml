@@ -33,15 +33,15 @@ spec:
           proxy_ssl_name "grafana.core-monitoring.cluster.local";
         nginx.ingress.kubernetes.io/proxy-ssl-secret: "core-platform/osm-private-nginx-client-cert"
         nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
-        nginx.ingress.kubernetes.io/rewrite-target: /$1
-        nginx.ingress.kubernetes.io/use-regex: "true"
+        # nginx.ingress.kubernetes.io/rewrite-target: /$1
+        # nginx.ingress.kubernetes.io/use-regex: "true"
 
-      path: /grafana/?(.*)
+      path: /grafana/
       hosts:
-        - monitoring.colinmac.local
+        - monitoring.colinmac.dev
       tls:
         - hosts:
-          - monitoring.colinmac.local
+          - monitoring.colinmac.dev
     extraSecretMounts:
       - name: secrets-store-inline
         mountPath: /run/secret-config
@@ -65,14 +65,14 @@ spec:
       grafana_net:
         url: https://grafana.net
       server:
-        root_url: http://localhost:3000/grafana
-        domain: monitoring.colinmac.local
+        root_url: https://monitoring.colinmac.dev/grafana/
+        domain: monitoring.colinmac.dev
         serve_from_sub_path: true
         # protocol: https
-      security:
-        disable_initial_admin_creation: true
-      auth:
-        disable_login_form: true
+      # security:
+      #   disable_initial_admin_creation: true
+      # auth:
+      #   disable_login_form: true
       azure:
         managed_identity_enabled: true
         managed_identity_client_id: a6f92948-bf47-4961-89eb-cbd686b94b8a
