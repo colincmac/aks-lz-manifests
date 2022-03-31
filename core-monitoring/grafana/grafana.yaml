@@ -44,7 +44,7 @@ spec:
           - monitoring.colinmac.local
     extraSecretMounts:
       - name: secrets-store-inline
-        mountPath: /run/secrets
+        mountPath: /run/secret-config
         readOnly: true
         csi:
           driver: secrets-store.csi.k8s.io
@@ -66,7 +66,7 @@ spec:
         url: https://grafana.net
       server:
         root_url: monitoring.colinmac.local/grafana
-        domain: 
+        domain: monitoring.colinmac.local
       security:
         disable_initial_admin_creation: true
       auth:
@@ -95,6 +95,6 @@ spec:
         team_ids_attribute_path: teams
         # client_id: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
         # client_secret: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-        client_id: $__file{/run/secrets/grafana-oauth-clientid}
-        client_secret: $__file{/run/secrets/grafana-oauth-clientsecret}
+        client_id: $__file{/run/secret-config/grafana-oauth-clientid}
+        client_secret: $__file{/run/secret-config/grafana-oauth-clientsecret}
         scopes: openid email profile
