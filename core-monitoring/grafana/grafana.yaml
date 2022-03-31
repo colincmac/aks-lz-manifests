@@ -50,7 +50,7 @@ spec:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: "grafana"
+            secretProviderClass: "grafana-config"
     grafana.ini:
       paths:
         data: /var/lib/grafana/
@@ -74,11 +74,11 @@ spec:
       azure:
         managed_identity_enabled: true
         managed_identity_client_id: a6f92948-bf47-4961-89eb-cbd686b94b8a
-      users:
-        allow_sign_up: false
-        external_manage_link_url:
-        external_manage_link_name:
-        external_manage_info:
+      # users:
+      #   allow_sign_up: false
+      #   external_manage_link_url:
+      #   external_manage_link_name:
+      #   external_manage_info:
       alerting:
         enabled: false # Disables legacy alerting
       auth.generic_oauth:
@@ -95,4 +95,6 @@ spec:
         team_ids_attribute_path: teams
         # client_id: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
         # client_secret: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+        client_id: $__file{/run/secrets/grafana-oauth-clientid}
+        client_secret: $__file{/run/secrets/grafana-oauth-clientsecret}
         scopes: openid email profile
