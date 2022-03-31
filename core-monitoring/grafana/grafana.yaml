@@ -18,6 +18,11 @@ spec:
       retries: 3
   # https://github.com/haproxytech/helm-charts/blob/main/kubernetes-ingress/values.yaml
   values:
+    labels:
+      colinmac.dev/pci-scope: out-of-scope
+    podLabels:
+      colinmac.dev/pci-scope: out-of-scope
+      aadpodidbinding: grafana-operator
     ingress:
       enabled: true
       ingressClassName: nginx-private
@@ -28,6 +33,10 @@ spec:
           proxy_ssl_name "grafana.core-platform.cluster.local";
         nginx.ingress.kubernetes.io/proxy-ssl-secret: "core-platform/osm-private-nginx-client-cert"
         nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+        nginx.ingress.kubernetes.io/rewrite-target: /$1
+        nginx.ingress.kubernetes.io/use-regex: "true"
+
+      path: /grafana/?(.*)      
       hosts:
         - monitoring.colinmac.local
       tls:
@@ -56,7 +65,8 @@ spec:
       grafana_net:
         url: https://grafana.net
       server:
-        domain: monitoring.colinmac.local
+        root_url: monitoring.colinmac.local/grafana
+        domain: 
       security:
         disable_initial_admin_creation: true
       auth:

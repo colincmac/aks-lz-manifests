@@ -8,6 +8,6 @@ patches:
   - patch: |
       - op: add
         path: /spec/serviceAccountName
-        value: core-platform-developers      
+        value: core-monitoring-developers      
     target:
       kind: HelmRelease
