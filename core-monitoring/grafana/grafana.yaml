@@ -18,6 +18,11 @@ spec:
       retries: 3
   # https://github.com/haproxytech/helm-charts/blob/main/kubernetes-ingress/values.yaml
   values:
+    readinessProbe:
+      httpGet:
+        path: /api/health
+        port: 3000
+      initialDelaySeconds: 30
     labels:
       colinmac.dev/pci-scope: out-of-scope
     podLabels:
