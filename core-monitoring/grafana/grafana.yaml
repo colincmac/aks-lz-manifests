@@ -36,7 +36,7 @@ spec:
         # nginx.ingress.kubernetes.io/rewrite-target: /$1
         # nginx.ingress.kubernetes.io/use-regex: "true"
 
-      path: /grafana/
+      path: /
       hosts:
         - monitoring.colinmac.dev
       tls:
@@ -65,9 +65,9 @@ spec:
       grafana_net:
         url: https://grafana.net
       server:
-        root_url: https://monitoring.colinmac.dev/grafana/
+        root_url: https://monitoring.colinmac.dev/
         domain: monitoring.colinmac.dev
-        serve_from_sub_path: true
+        # serve_from_sub_path: true
         # protocol: https
       # security:
       #   disable_initial_admin_creation: true
