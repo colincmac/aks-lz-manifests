@@ -4,6 +4,5 @@ resources:
   - ingress-nginx.yaml
   - keda.yaml
   - haproxytech.yaml
-  - grafana.yaml
   - flagger.yaml
   - oauth2-proxy.yaml

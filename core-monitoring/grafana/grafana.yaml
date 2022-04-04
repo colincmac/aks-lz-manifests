@@ -1,107 +1,210 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
+# Source: grafana/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
+  name: grafana
+  namespace: core-monitoring
+---
+# Source: grafana/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
 metadata:
   name: grafana
+  namespace: core-monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
+data:
+  grafana.ini: |
+    [alerting]
+    enabled = false
+    [analytics]
+    check_for_updates = true
+    [auth.generic_oauth]
+    allow_sign_up = true
+    api_url = https://login.colinmac.dev/oinkfinancial.onmicrosoft.com/b2c_1a_grafana_signup_signin/openid/v2.0/userinfo
+    auth_url = https://login.colinmac.dev/oinkfinancial.onmicrosoft.com/b2c_1a_grafana_signup_signin/oauth2/v2.0/authorize
+    token_url = https://login.colinmac.dev/oinkfinancial.onmicrosoft.com/b2c_1a_grafana_signup_signin/oauth2/v2.0/token
+    client_id = $__file{/run/secret-config/grafana-oauth-clientid}
+    client_secret = $__file{/run/secret-config/grafana-oauth-clientsecret}
+    enabled = true
+    groups_attribute_path = groups
+    name = OinkFinancial
+    role_attribute_path = role
+    role_attribute_strict = false
+    email_attribute_path = email
+    scopes = f5bae997-ae36-45a4-896c-3a72ed6b5c3e openid profile
+    team_ids_attribute_path = teams
+    use_pkce = true
+    [azure]
+    managed_identity_client_id = a6f92948-bf47-4961-89eb-cbd686b94b8a
+    managed_identity_enabled = true
+    [grafana_net]
+    url = https://grafana.net
+    [log]
+    mode = console
+    [paths]
+    data = /var/lib/grafana/
+    logs = /var/log/grafana
+    plugins = /var/lib/grafana/plugins
+    provisioning = /etc/grafana/provisioning
+    [security]
+    disable_initial_admin_creation = true
+    [server]
+    domain = monitor.secure.colinmac.dev
+    root_url = https://%(domain)s/grafana/
+    serve_from_sub_path = true
+---
+# Source: grafana/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: core-monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
 spec:
-  releaseName: grafana
-  chart:
-    spec:
-      chart: grafana
-      sourceRef:
-        kind: HelmRepository
-        name: grafana
-        namespace: core-monitoring
-      # version: "" latest
-  interval: 1h0m0s
-  install:
-    remediation:
-      retries: 3
-  # https://github.com/haproxytech/helm-charts/blob/main/kubernetes-ingress/values.yaml
-  values:
-    readinessProbe:
-      httpGet:
-        path: /api/health
-        port: 3000
-      initialDelaySeconds: 30
-    labels:
-      colinmac.dev/pci-scope: out-of-scope
-    podLabels:
-      colinmac.dev/pci-scope: out-of-scope
-      aadpodidbinding: grafana-operator
-    ingress:
-      enabled: true
-      ingressClassName: nginx-private
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3000
+  selector:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+---
+# Source: grafana/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: core-monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
+    colinmac.dev/pci-scope: out-of-scope
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/instance: grafana
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grafana
+        app.kubernetes.io/instance: grafana
+        aadpodidbinding: grafana-operator
+        colinmac.dev/pci-scope: out-of-scope
       annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        # proxy_ssl_name for a service is of the form <service-account>.<namespace>.cluster.local
-        nginx.ingress.kubernetes.io/configuration-snippet: |
-          proxy_ssl_name "grafana.core-monitoring.cluster.local";
-        nginx.ingress.kubernetes.io/proxy-ssl-secret: "core-platform/osm-private-nginx-client-cert"
-        nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
-        # nginx.ingress.kubernetes.io/rewrite-target: /$1
-        # nginx.ingress.kubernetes.io/use-regex: "true"
+        checksum/config: 428bafd10b4c1f627a3208c15ada70f074bc86a96fd56a9e5da96f6e3c05f443
+        checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/secret: 78d884e517ce4c19893fae5b07f8419fcbdd1a36f4c7d8a3053762d143c6bcee
+    spec:
 
-      path: /
-      hosts:
-        - monitoring.colinmac.dev
-      tls:
-        - hosts:
-          - monitoring.colinmac.dev
-    extraSecretMounts:
-      - name: secrets-store-inline
-        mountPath: /run/secret-config
-        readOnly: true
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: "grafana-config"
-    grafana.ini:
-      paths:
-        data: /var/lib/grafana/
-        logs: /var/log/grafana
-        plugins: /var/lib/grafana/plugins
-        provisioning: /etc/grafana/provisioning
-      analytics:
-        check_for_updates: true
-        # application_insights_connection_string: `GF_AUTH_AZUREAD_CLIENT_ID`
-      log:
-        mode: console
-      grafana_net:
-        url: https://grafana.net
-      server:
-        root_url: https://monitoring.colinmac.dev/
-        domain: monitoring.colinmac.dev
-        # serve_from_sub_path: true
-        # protocol: https
-      # security:
-      #   disable_initial_admin_creation: true
-      # auth:
-      #   disable_login_form: true
-      azure:
-        managed_identity_enabled: true
-        managed_identity_client_id: a6f92948-bf47-4961-89eb-cbd686b94b8a
-      # users:
-      #   allow_sign_up: false
-      #   external_manage_link_url:
-      #   external_manage_link_name:
-      #   external_manage_info:
-      alerting:
-        enabled: false # Disables legacy alerting
-      auth.generic_oauth:
-        name: AD B2C - OinkFinancial
-        enabled: true
-        allow_sign_up: true
-        auth_url: https://oinkfinancial.b2clogin.com/colinmac.dev/oauth2/v2.0/authorize?p=b2c_1a_grafana_signup_signin
-        token_url: https://oinkfinancial.b2clogin.com/colinmac.dev/oauth2/v2.0/token?p=b2c_1a_grafana_signup_signin
-        api_url: https://oinkfinancial.b2clogin.com/colinmac.dev/openid/v2.0/userinfo?p=b2c_1a_grafana_signup_signin
-        use_pkce: true
-        role_attribute_strict: false # TODO: switch to true
-        role_attribute_path: role
-        groups_attribute_path: groups
-        team_ids_attribute_path: teams
-        # client_id: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-        # client_secret: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-        client_id: $__file{/run/secret-config/grafana-oauth-clientid}
-        client_secret: $__file{/run/secret-config/grafana-oauth-clientsecret}
-        scopes: openid email profile
+      serviceAccountName: grafana
+      automountServiceAccountToken: true
+      securityContext:
+        fsGroup: 472
+        runAsGroup: 472
+        runAsUser: 472
+      enableServiceLinks: true
+      containers:
+        - name: grafana
+          image: "grafana/grafana:8.4.2"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/grafana/grafana.ini"
+              subPath: grafana.ini
+            - name: storage
+              mountPath: "/var/lib/grafana"
+            - name: secrets-store-inline
+              mountPath: /run/secret-config
+              readOnly: true
+              subPath:
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: GF_PATHS_DATA
+              value: /var/lib/grafana/
+            - name: GF_PATHS_LOGS
+              value: /var/log/grafana
+            - name: GF_PATHS_PLUGINS
+              value: /var/lib/grafana/plugins
+            - name: GF_PATHS_PROVISIONING
+              value: /etc/grafana/provisioning
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 60
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+          resources:
+            {}
+      volumes:
+        - name: config
+          configMap:
+            name: grafana
+        - name: storage
+          emptyDir: {}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: grafana-config
+---
+# Source: grafana/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: core-monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_ssl_name "grafana.core-monitoring.cluster.local";
+    nginx.ingress.kubernetes.io/proxy-ssl-secret: "core-platform/osm-private-nginx-client-cert"
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx-private
+  tls:
+    - hosts:
+      - monitor.secure.colinmac.dev
+  rules:
+    - host: monitor.secure.colinmac.dev
+      http:
+        paths:
+          - path: /grafana/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+---

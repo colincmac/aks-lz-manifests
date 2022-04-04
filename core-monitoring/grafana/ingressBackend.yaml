@@ -2,17 +2,22 @@ apiVersion: policy.openservicemesh.io/v1alpha1
 kind: IngressBackend
 metadata:
   name: grafana
+  namespace: core-monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "8.4.2"
 spec:
   backends:
   - name: grafana
     port:
-      number: 80
+      number: 3000
       protocol: https
     tls:
       skipClientCertValidation: false
   sources:
   - kind: Service
-    name: ingress-nginx-private-controller
-    namespace: core-platform
+    name: "ingress-nginx-private-controller"
+    namespace: "core-platform"
   - kind: AuthenticatedPrincipal
     name: ingress-nginx-private.core-platform.cluster.local
