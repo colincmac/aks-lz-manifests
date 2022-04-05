@@ -5,56 +5,48 @@ metadata:
   namespace: ${namespace}
 spec:
   hard:
-    # 100m - haproxy-ingress-controller-private (default)
-    # 100m - nginx-ingress-controller-private
-    # 100m - keda-operator
-    # 100m - keda-metric-server
-    # 800m - Allow for x2 horizontal growth on above
-    # 100m - Rolling updates
-    requests.cpu: 1300m
+    # 300m - grafana (+ envoy & sidecars)
+    # 250m - jaeger (+ envoy)
+    # 550m - Allow for x2 horizontal growth on above
+    # 300m - Rolling updates
+    requests.cpu: 1400m
 
-    # 100Mi - haproxy-ingress-controller-private (default)
-    # 90Mi - nginx-ingress-controller-private
-    # 100Mi - keda-operator
-    # 100Mi - keda-metric-server
-    # 800Mi - Allow for x2 horizontal growth on above
-    # 100Mi - Rolling updates
-    requests.memory: 1290Mi
+    # 300Mi - grafana (+ envoy & sidecars)
+    # 250Mi - jaeger (+ envoy)
+    # 550Mi - Allow for x2 horizontal growth on above
+    # 300Mi - Rolling updates
+    requests.memory: 1400Mi
     requests.storage: "0"
 
-    # 200m - haproxy-ingress-controller-private (default)
-    # 200m - nginx-ingress-controller-private (default)
-    # 1000m - keda-operator
-    # 1000m - keda-metric-server
-    # 2400m - Allow for x2 horizontal growth on above
-    # 200m - Rolling updates
-    limits.cpu: 5000m
+    # 400m - grafana (+ envoy & sidecars)
+    # 250Mi - jaeger (+ envoy)
+    # 650m - Allow for x2 horizontal growth on above
+    # 400m - Rolling updates
+    limits.cpu: 1700m
 
-    # 200Mi - haproxy-ingress-controller-private (default)
-    # 200Mi - nginx-ingress-controller-private (default)
-    # 1000Mi - keda-operator
-    # 1000Mi - keda-metric-server
-    # 2400Mi - Allow for x2 horizontal growth on above
-    # 200Mi - Rolling updates
-    limits.memory: 5000Mi
+    # 600Mi - grafana (+ envoy & sidecars)
+    # 350Mi - jaeger (+ envoy)
+    # 950Mi - Allow for x2 horizontal growth on above
+    # 600Mi - Rolling updates
+    limits.memory: 2500Mi
     count/persistentvolumeclaims: "0"
 
-    # 1 - Keda (ClusterIP)
-    # 1 - haproxy-ingress-controller-private (1 LoadBalancer)
-    # 3 - nginx-ingress private (controller/metrics/admission)  (1 LoadBalancer / 2 ClusterIP)
-    count/services: "5"
-    count/services.loadbalancers: "2"
+    # 1 - grafana (ClusterIP)
+    # 1 - httpbin (ClusterIP)
+    # 1 - jaeger (ClusterIP)
+    count/services: "3"
+    count/services.loadbalancers: "0"
     count/services.nodeports: "0"
 
-    # 2 - Keda
-    # 1 - haproxy-ingress-controller-private
-    # 1 - nginx-ingress-controller-private
-    count/deployments.apps: "4"
+    # 1 - grafana
+    # 1 - httpbin
+    # 1 = jaeger
+    count/deployments.apps: "3"
     count/daemonset.apps: "0"
 
-    # 1 - haproxy-ingress-controller-private
-    # 1 - nginx-ingress-controller-private
-    # 2 - keda
-    # 4 - Allow for x2 horizontal growth on above
-    # 2 - Rolling updates
-    count/pods: "10"
+    # 1 - grafana
+    # 1 - httpbin
+    # 1 = jaeger
+    # 2 - Allow for x2 horizontal growth on above
+    # 1 - Rolling updates
+    count/pods: "6"
