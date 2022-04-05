@@ -21,4 +21,3 @@ spec:
       viewerGroup: a5892987-ce42-4067-be7c-ac40c6ecc3bf
       maxContainerCPU: 1000m
       maxContainerMemory: 1000Mi
-      maxPVCStorage: 10Gi

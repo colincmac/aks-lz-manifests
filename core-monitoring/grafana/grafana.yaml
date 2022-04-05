@@ -147,6 +147,8 @@ spec:
               value: /var/lib/grafana/plugins
             - name: GF_PATHS_PROVISIONING
               value: /etc/grafana/provisioning
+            - name: GF_DATABASE_URL
+              value: sqlite3:///var/lib/grafana/grafana.db?cache=private&mode=rwc&_journal_mode=WAL
           livenessProbe:
             failureThreshold: 10
             httpGet:
