@@ -20,7 +20,7 @@ spec:
     # 800Mi - Allow for x2 horizontal growth on above
     # 100Mi - Rolling updates
     requests.memory: 1290Mi
-    requests.storage: "0"
+    requests.storage: "10Gi"
 
     # 200m - haproxy-ingress-controller-private (default)
     # 200m - nginx-ingress-controller-private (default)
@@ -37,7 +37,7 @@ spec:
     # 2400Mi - Allow for x2 horizontal growth on above
     # 200Mi - Rolling updates
     limits.memory: 5000Mi
-    count/persistentvolumeclaims: "0"
+    count/persistentvolumeclaims: "1"
 
     # 1 - Keda (ClusterIP)
     # 1 - haproxy-ingress-controller-private (1 LoadBalancer)

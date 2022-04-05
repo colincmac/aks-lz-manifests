@@ -1,0 +1,40 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mgmt-monitor-files
+provisioner: file.csi.azure.com
+parameters:
+  resourceGroup: lz-mgmt-001
+  storageAccount: oinkmgmtfiles
+  protocol: nfs
+  server: oinkmgmtfiles.privatelink.file.core.windows.net
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nconnect=8  # only supported on linux kernel version >= 5.3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mgmt-monitor-core-pv
+spec:
+  storageClassName: mgmt-monitor-files
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain  # if set as "Delete" file share would be removed in pvc deletion
+  mountOptions:
+    - nconnect=8  # only supported on linux kernel version >= 5.3
+  csi:
+    driver: file.csi.azure.com
+    readOnly: false
+    # make sure this volumeid is unique in the cluster
+    # `#` is not allowed in self defined volumeHandle
+    volumeHandle: mgmt-monitor-core-pv
+    volumeAttributes:
+      shareName: core
+      protocol: nfs
+      resourceGroup: lz-mgmt-001
+      storageAccount: oinkmgmtfiles
+      server: oinkmgmtfiles.privatelink.file.core.windows.net

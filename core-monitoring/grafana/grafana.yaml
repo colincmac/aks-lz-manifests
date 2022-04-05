@@ -164,14 +164,19 @@ spec:
         - name: config
           configMap:
             name: grafana
-        - name: storage
-          emptyDir: {}
         - name: secrets-store-inline
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
               secretProviderClass: grafana-config
+        - name: storage
+          csi:
+            driver: file.csi.azure.com
+            volumeAttributes:
+              shareName: core-monitoring
+              folderName: grafana
+              secretName: grafana-storage
 ---
 # Source: grafana/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
