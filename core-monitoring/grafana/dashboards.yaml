@@ -1,0 +1,10 @@
+# TODO
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-grafana-dashboard
+  labels:
+     grafana_dashboard: "1"
+data:
+  default.json: |-
+    []
