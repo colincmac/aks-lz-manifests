@@ -7,7 +7,6 @@ generatorOptions:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: grafana
     app.kubernetes.io/component: dashboard
-  annotations:
     grafana.colinmac.dev/dashboard: "enabled"
 
 configMapGenerator:
@@ -40,5 +39,5 @@ configMapGenerator:
   - nginx-request-handling.json
   options:
     annotations:
-      grafana.colinmac.dev/dashboard: "k8s-nginx-requests"
+      grafana.colinmac.dev/dashboard-name: "k8s-nginx-requests"
       grafana.colinmac.dev/dashboard-folder: "Kubernetes/Traffic"
