@@ -4,3 +4,4 @@ resources:
   - grafana-secrets.yaml
   - grafana.yaml
   - ingressBackend.yaml
+  - dashboards
