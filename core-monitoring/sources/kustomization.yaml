@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - prometheus-community.yaml
   - jaegertracing.yaml
+  - grafana-mimir.yaml

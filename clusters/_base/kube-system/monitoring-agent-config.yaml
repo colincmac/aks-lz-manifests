@@ -18,7 +18,7 @@ data:
        [log_collection_settings.env_var]
           enabled = true
        [log_collection_settings.enrich_container_logs]
-          enabled = false
+          enabled = true
        [log_collection_settings.collect_all_kube_events]
           enabled = false
   prometheus-data-collection-settings: |-
@@ -43,3 +43,8 @@ data:
     [integrations.azure_network_policy_manager]
         collect_basic_metrics = true
         collect_advanced_metrics = false
+  osm-metric-collection-configuration: |-
+    [osm_metric_collection_configuration]
+      [osm_metric_collection_configuration.settings]
+          # Namespaces to monitor
+          monitor_namespaces = ["shared-services", "flux-system", "core-monitoring", "core-platform"]

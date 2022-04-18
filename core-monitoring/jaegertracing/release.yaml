@@ -18,7 +18,7 @@ spec:
       retries: 3
   values:
     extraLabels:
-      colinmac.dev/pci-scope: out-of-scope
+      compliance.colinmac.dev/pci-scope: out-of-scope
     resources:
       limits:
         cpu: 100m

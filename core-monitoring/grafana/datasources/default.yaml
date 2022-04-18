@@ -1,0 +1,10 @@
+apiVersion: 1 # config file version
+
+datasources:
+  - name: Azure Monitor
+    type: grafana-azure-monitor-datasource
+    access: proxy
+    jsonData:
+      azureAuthType: msi
+      subscriptionId: 71db92d7-5d50-4033-8937-b5d2a6102f5e # Optional, default subscription
+    version: 1
