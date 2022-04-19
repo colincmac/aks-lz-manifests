@@ -11,3 +11,17 @@ patches:
         value: core-monitoring-developers      
     target:
       kind: HelmRelease
+  - patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
+        value: out-of-scope
+    target:
+      kind: Deployment
+      labelSelector: "compliance.colinmac.dev/pci-scope=out-of-scope"
+  - patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
+        value: in-scope
+    target:
+      kind: Deployment
+      labelSelector: "compliance.colinmac.dev/pci-scope=in-scope"
