@@ -307,6 +307,8 @@ spec:
         - name: sc-dashboard-provider
           configMap:
             name: grafana-config-dashboards
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 # Source: grafana/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
