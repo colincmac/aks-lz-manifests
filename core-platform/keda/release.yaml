@@ -41,3 +41,6 @@ spec:
     podIdentity:
       activeDirectory:
         identity: keda-operator
+    nodeSelector:
+        kubernetes.io/os: linux
+        compliance.colinmac.dev/pci-scope: out-of-scope
