@@ -18,23 +18,23 @@ spec:
   install:
     remediation:
       retries: 3
-  postRenderers:
-    - kustomize:
-        patches:
-          - patch: |
-              - op: add
-                path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
-                value: out-of-scope
-            target:
-              kind: Deployment
-              labelSelector: "compliance.colinmac.dev/pci-scope=out-of-scope"
-          - patch: |
-              - op: add
-                path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
-                value: in-scope
-            target:
-              kind: Deployment
-              labelSelector: "compliance.colinmac.dev/pci-scope=in-scope"  
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - patch: |
+  #             - op: add
+  #               path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
+  #               value: out-of-scope
+  #           target:
+  #             kind: Deployment
+  #             labelSelector: "compliance.colinmac.dev/pci-scope=out-of-scope"
+  #         - patch: |
+  #             - op: add
+  #               path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
+  #               value: in-scope
+  #           target:
+  #             kind: Deployment
+  #             labelSelector: "compliance.colinmac.dev/pci-scope=in-scope"  
   # Default values
   # https://github.com/kedacore/charts/blob/main/keda/values.yaml
   values:
