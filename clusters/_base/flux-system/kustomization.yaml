@@ -14,7 +14,7 @@ patches:
         path: /spec/template/spec/containers/0/args/0
         value: --no-cross-namespace-refs=true      
       - op: add
-        path: /spec/template/spec/nodeSelector/colinmac.dev~1pci-scope
+        path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
         value: out-of-scope
     target:
       kind: Deployment
@@ -38,10 +38,10 @@ patches:
   # TODO: optimize -- this should probably be a common patch that can be applied
   - patch: |
       - op: add
-        path: /metadata/labels/colinmac.dev~1pci-scope
+        path: /metadata/labels/compliance.colinmac.dev~1pci-scope
         value: out-of-scope
       - op: add
-        path: /spec/template/metadata/labels/colinmac.dev~1pci-scope
+        path: /spec/template/metadata/labels/compliance.colinmac.dev~1pci-scope
         value: out-of-scope
     target:
       kind: Deployment
