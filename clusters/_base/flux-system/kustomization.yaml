@@ -13,9 +13,6 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/0
         value: --no-cross-namespace-refs=true      
-      - op: add
-        path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
-        value: out-of-scope
     target:
       kind: Deployment
       name: "(kustomize-controller|helm-controller|notification-controller|image-reflector-controller|image-automation-controller)"
@@ -42,6 +39,9 @@ patches:
         value: out-of-scope
       - op: add
         path: /spec/template/metadata/labels/compliance.colinmac.dev~1pci-scope
+        value: out-of-scope
+      - op: add
+        path: /spec/template/spec/nodeSelector/compliance.colinmac.dev~1pci-scope
         value: out-of-scope
     target:
       kind: Deployment
