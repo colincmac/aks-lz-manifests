@@ -18,6 +18,8 @@ spec:
   path: ./core-monitoring
   serviceAccountName: ${team}
   interval: 5m
+  ref:
+    branch: 1.x
   sourceRef:
     kind: GitRepository
     name: ${team}
