@@ -6,7 +6,7 @@ resources:
   - colinmac-tls
   - ingress-nginx
   - keda
-  - haproxy
+  # - haproxy
 patches:
   - patch: |
       - op: add
