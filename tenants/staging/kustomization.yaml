@@ -5,3 +5,5 @@ commonLabels:
   colinmac.dev/env: Staging
 resources:
   - ./shared-services-team.yaml
+  - ./oink-financial-accounts-team.yaml
+  - ./oink-account-payments-team.yaml

@@ -1,0 +1,22 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: financial-accounts-config
+spec:
+  path: ./tenants/_base/oink-financial-accounts-team
+  prune: true
+  interval: 10m
+  serviceAccountName: kustomize-controller
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      team: oink-financial-accounts-developers
+      namespace: financial-accounts
+      syncPath: ./production
+      pciScope: out-of-scope
+      # You would want to separate these roles in real-world scenarios
+      adminGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
+      editorGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5
+      viewerGroup: dfd1fb8f-4e52-4bbb-a8c3-5efb0f19ffb5

@@ -1,0 +1,26 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: ${team}
+  namespace: ${namespace}
+spec:
+  interval: 10m
+  url: https://github.com/colincmac/aks-lz-manifests
+  ref:
+    branch: 1.x
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: ${team}
+  namespace: ${namespace}
+spec:
+  path: ./core-platform
+  serviceAccountName: ${team}
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: ${team}
+  prune: true
+  validation: client
+
