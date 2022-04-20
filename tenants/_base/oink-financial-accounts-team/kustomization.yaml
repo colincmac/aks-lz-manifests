@@ -6,12 +6,3 @@ resources:
   - network-allowall.yaml
   - resource-quota.yaml
   # - sync.yaml
-patches:
-   # https://release-v1-0.docs.openservicemesh.io/docs/demos/ingress_k8s_nginx/
-   # NGINX can not have the envoy sidecar enabled
-  - patch: |
-      - op: replace
-        path: /metadata/annotations/openservicemesh.io~1sidecar-injection
-        value: disabled 
-    target:
-      kind: Namespace
