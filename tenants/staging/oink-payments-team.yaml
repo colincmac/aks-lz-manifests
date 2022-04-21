@@ -1,9 +1,9 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: financial-account-payments-staging-config
+  name: payments-staging-config
 spec:
-  path: ./tenants/_base/oink-account-payments-team
+  path: ./tenants/_base/oink-payments-team
   prune: true
   interval: 10m
   serviceAccountName: kustomize-controller
@@ -12,8 +12,8 @@ spec:
     name: flux-system
   postBuild:
     substitute:
-      team: oink-account-payments-developers
-      namespace: financial-account-payments-staging
+      team: oink-payments-developers
+      namespace: payments-staging
       syncPath: ./staging
       pciScope: in-scope
       # You would want to separate these roles in real-world scenarios

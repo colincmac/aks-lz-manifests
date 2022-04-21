@@ -8,4 +8,4 @@ resources:
   - ./core-platform-team.yaml
   - ./shared-services-team.yaml
   - ./oink-financial-accounts-team.yaml
-  - ./oink-account-payments-team.yaml
+  - ./oink-payments-team.yaml
