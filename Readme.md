@@ -5,10 +5,7 @@ Flux configuration for a multi-tenant AKS cluster.
 
 
 ## Features
-* Managed Identity data plane access to Cosmos DB.
-* Custom JSON serialization for HTTP (Newtonsoft) and CosmosDB (System.Text.Json) bindings
-* Custom authentication & authorization using Azure B2C
-* Generates OpenApi documentation for Azure API Management consumption 
+* ...
 
 ## Related GitHub repositories
 
