@@ -100,7 +100,7 @@ data:
     team_ids_attribute_path = teams
     use_pkce = true
     [azure]
-    managed_identity_client_id = a6f92948-bf47-4961-89eb-cbd686b94b8a
+    managed_identity_client_id = c274dc9d-d20c-49a5-87d4-544aeec0a9a7
     managed_identity_enabled = true
     [grafana_net]
     url = https://grafana.net
