@@ -4,8 +4,8 @@ namespace: flux-system
 commonLabels:
   colinmac.dev/env: Production
 resources:
-  - ./core-monitoring-team.yaml
   - ./core-platform-team.yaml
+  - ./core-monitoring-team.yaml
   - ./shared-services-team.yaml
   - ./oink-financial-accounts-team.yaml
-  - ./oink-payments-team.yaml
+  # - ./oink-payments-team.yaml

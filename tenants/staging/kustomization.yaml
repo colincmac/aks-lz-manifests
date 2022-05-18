@@ -6,4 +6,4 @@ commonLabels:
 resources:
   - ./shared-services-team.yaml
   - ./oink-financial-accounts-team.yaml
-  - ./oink-account-payments-team.yaml
+  # - ./oink-account-payments-team.yaml
